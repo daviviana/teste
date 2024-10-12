@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	"teste/internal/adapters"
 	"teste/internal/adapters/db/repositories"
 	"teste/internal/adapters/http/handlers"
 	"teste/internal/adapters/zip"
@@ -42,7 +43,8 @@ func UserRoutes(e *echo.Echo) {
 
 func AuthRoutes(e *echo.Echo) {
 	userRepo := repositories.NewUserRepository("test.db")
-	authService := domain.NewLoginService(userRepo)
+	emailAdapter := adapters.NewEmailAdapter()
+	authService := domain.NewLoginService(userRepo, emailAdapter)
 	authHandler := handlers.NewAuthHandler(authService)
 
 	authRoutes := e.Group("")

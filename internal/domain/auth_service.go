@@ -12,10 +12,11 @@ var jwtSecret = []byte("mysecret") // Chave secreta para JWT
 
 type AuthService struct {
 	ports.UserRepository
+	ports.EmailAdapter
 }
 
-func NewLoginService(repository ports.UserRepository) ports.AuthService {
-	return &AuthService{UserRepository: repository}
+func NewLoginService(repository ports.UserRepository, adapter ports.EmailAdapter) ports.AuthService {
+	return &AuthService{UserRepository: repository, EmailAdapter: adapter}
 }
 
 func (service *AuthService) Login(email, password string) (string, error) {
@@ -58,6 +59,8 @@ func (service *AuthService) GenerateRecoveryToken(email string) (string, error) 
 	if err != nil {
 		return "", err
 	}
+
+	service.EmailAdapter.SendEmail()
 
 	return tokenString, nil
 }
