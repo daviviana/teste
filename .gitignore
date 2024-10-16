@@ -1,0 +1,30 @@
+# Diretórios e arquivos gerados pela Go
+bin/
+*.exe
+*.test
+*.out
+
+# Módulos e dependências do Go
+vendor/
+Gopkg.lock
+Gopkg.toml
+go.sum
+
+# Arquivos e diretórios de IDEs e editores de código
+.vscode/
+.idea/
+*.swp
+
+# Arquivos de configuração e ambiente
+.env
+config.yaml
+
+# Arquivos temporários do sistema
+*.log
+*.tmp
+*.bak
+*.old
+.DS_Store
+
+# Docker e imagens
+docker-compose.override.yml

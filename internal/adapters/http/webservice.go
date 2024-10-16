@@ -37,7 +37,7 @@ func UserRoutes(e *echo.Echo) {
 	userRoutes := e.Group("/users")
 	userRoutes.POST("", userHandler.RegisterUser)
 
-	userRoutes.Use(JWTMiddleware("mysecret"))
+	userRoutes.Use(JWTMiddleware())
 	userRoutes.GET("", userHandler.ListUsers)
 }
 

@@ -2,13 +2,12 @@ package domain
 
 import (
 	"errors"
+	"teste/internal/config"
 	"teste/internal/ports"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
-
-var jwtSecret = []byte("mysecret") // Chave secreta para JWT
 
 type AuthService struct {
 	ports.UserRepository
@@ -35,7 +34,7 @@ func (service *AuthService) Login(email, password string) (string, error) {
 		"exp":     time.Now().Add(time.Hour * 72).Unix(),
 	})
 
-	tokenString, err := token.SignedString(jwtSecret)
+	tokenString, err := token.SignedString(config.AppConfig.JWTSecret)
 	if err != nil {
 		return "", err
 	}
@@ -55,7 +54,7 @@ func (service *AuthService) GenerateRecoveryToken(email string) (string, error) 
 		"exp":     time.Now().Add(time.Hour * 1).Unix(),
 	})
 
-	tokenString, err := token.SignedString(jwtSecret)
+	tokenString, err := token.SignedString(config.AppConfig.JWTSecret)
 	if err != nil {
 		return "", err
 	}

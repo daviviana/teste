@@ -3,9 +3,9 @@ FROM golang:1.23.2-alpine AS builder
 
 RUN apk --update-cache upgrade && apk add --no-cache git mercurial ca-certificates tzdata gcc musl-dev sqlite-dev
 
-ENV APPNAME teste
-ENV SRCPATH /src/${APPNAME}
-ENV BINPATH /${APPNAME}
+ENV APPNAME=teste
+ENV SRCPATH=/src/${APPNAME}
+ENV BINPATH=/${APPNAME}
 
 COPY . ${SRCPATH}
 WORKDIR ${SRCPATH}/cmd
@@ -18,10 +18,12 @@ FROM alpine
 
 RUN apk --no-cache add sqlite
 
-ENV APPNAME teste
-ENV DB_FILE /${APPNAME}/test.db
+ENV APPNAME=teste
+ENV DB_FILE=/${APPNAME}/test.db
 
-COPY --from=builder /${APPNAME} /${APPNAME}
+COPY --from=builder /${APPNAME}/${APPNAME} /${APPNAME}/
+COPY --from=builder /src/${APPNAME}/.env /${APPNAME}/.env
+
 WORKDIR /${APPNAME}
 
 CMD ["./teste"]
